@@ -7,8 +7,9 @@
 
 char commPort[] = "/dev/ttyUSB0";
 int remoteId = 1;
-int maxVoltage = 3000;
+int maxVoltage = 1300;
 int maxCurrent = 1000;
+int minVoltage = 300;
 
 int main() {
     modbus_t *ctx = NULL;
@@ -17,13 +18,13 @@ int main() {
     writeOutput(ctx, true);
     writeCurrent(ctx, maxCurrent, maxCurrent);
 
+    // loop from minimum voltage to max voltage in increments of 0.5V
     int i;
-    for (i=0; i < maxVoltage;) {
-        i = i + 20;
+    for (i=minVoltage; i < maxVoltage;) {
+        i = i + 50;
         writeVoltage(ctx, i, maxVoltage);
-        usleep(50000);
-        if (i == 1800) {
-            i = 0;
+        if (i >= maxVoltage) {
+            i = minVoltage;
         }
     }
 
