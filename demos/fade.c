@@ -20,7 +20,7 @@ int main() {
 
     // loop from minimum voltage to max voltage in increments of 0.5V
     int i;
-    for (i=minVoltage; i < maxVoltage;) {
+    for (i=minVoltage; i <= maxVoltage;) {
         i = i + 50;
         writeVoltage(ctx, i, maxVoltage);
         if (i >= maxVoltage) {
