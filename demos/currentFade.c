@@ -4,16 +4,24 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
 
+modbus_t *ctx = NULL;
 char commPort[] = "/dev/ttyUSB0";
 int remoteId = 1;
 int maxVoltage = 1400;
 int maxCurrent = 180;
 int minCurrent = 50;
 
+void exitDisconnect(int signum) {
+    disconnect(ctx);
+    exit(EXIT_SUCCESS);
+}
+
 int main() {
-    modbus_t *ctx = NULL;
     connect(&ctx, commPort, remoteId);
+    signal(SIGINT, exitDisconnect);
 
     writeCurrent(ctx, minCurrent, maxCurrent);
     writeVoltage(ctx, maxVoltage, maxVoltage);

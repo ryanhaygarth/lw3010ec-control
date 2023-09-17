@@ -45,16 +45,11 @@ writeVoltage(ctx, 1400, maxVoltage) // set the voltage to 14V
 writeCurrent(ctx, 1000, maxCurrent) // set the current limit to 10A
 writeOutput(ctx, true) // turn the output on
 ```  
+Read [demos/template.c](https://github.com/ryanhaygarth/lw3010ec-control/blob/main/demos/template.c) to see how to make sure disconnect() is called when the program is exited with SIGINT (for example if the program runs in a loop, etc.)  
 
 ### Building
 
 To build something from this project, you need to link the modbus library when compiling.  
 
 An example to compile the fade.c file would be  
-```gcc ../lw3010.c fade.c -o fade -lmodbus```  
-
-### Todo
-
-- complete readOutputs function
-- automatically find the usb location by checking the modbus productId
-- make the functions available as a global package
+```gcc lw3010.c demos/fade.c -o fade -lmodbus```  
