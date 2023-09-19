@@ -5,8 +5,8 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <getopt.h>
-#include <limits.h>
 #include <string.h>
 
 modbus_t *ctx = NULL;
@@ -31,7 +31,6 @@ void exitDisconnect(int signum) {
 int main(int argc, char **argv) {
     while (( option = getopt(argc, argv, "v:c:o:h")) != -1 ) {
         switch (option) {
-
             case 'v':
                 setVoltage = strtol(optarg, NULL, 10);
                 changeVoltage = true;
@@ -60,13 +59,13 @@ int main(int argc, char **argv) {
                 return 1;
         }
     }
-
     connect(&ctx, commPort, remoteId);
     signal(SIGINT, exitDisconnect);
 
-    if (changeVoltage) { writeVoltage(ctx, setVoltage, maxVoltage); }
-    if (changeCurrent) { writeCurrent(ctx, setCurrent, maxCurrent); }
+    if (changeVoltage) { writeVoltage(ctx, setVoltage); }
+    if (changeCurrent) { writeCurrent(ctx, setCurrent); }
     if (changeOutput) { writeOutput(ctx, setOutput); }
+    
     disconnect(ctx);
     return 0;
 }

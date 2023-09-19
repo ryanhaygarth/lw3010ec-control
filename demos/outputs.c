@@ -12,6 +12,9 @@ char commPort[] = "/dev/ttyUSB0";
 int remoteId = 1;
 int maxVoltage = 3000;
 int maxCurrent = 1000;
+int outputVoltage = 0;
+int outputCurrent = 0;
+bool outputStatus = false;
 
 void exitDisconnect(int signum) {
     disconnect(ctx);
@@ -22,9 +25,11 @@ int main() {
     connect(&ctx, commPort, remoteId);
     signal(SIGINT, exitDisconnect);
 
-    writeVoltage(ctx, 0);
-    writeCurrent(ctx, maxCurrent);
-    writeOutput(ctx, false);
+    readOutputs(ctx, &outputVoltage, &outputCurrent, &outputStatus);
+
+    printf("v = %d\n", outputVoltage);
+    printf("c = %d\n", outputCurrent);
+    printf("o = %d\n", outputStatus);
 
     disconnect(ctx);
     return 0;

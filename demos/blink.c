@@ -22,7 +22,7 @@ int main() {
     connect(&ctx, commPort, remoteId);
     signal(SIGINT, exitDisconnect);
     
-    writeVoltage(ctx, 1200, maxVoltage);
+    writeVoltage(ctx, 1200);
 
     while (true) {
         writeOutput(ctx, true);

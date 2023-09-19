@@ -23,8 +23,8 @@ int main() {
     connect(&ctx, commPort, remoteId);
     signal(SIGINT, exitDisconnect);
 
-    writeCurrent(ctx, minCurrent, maxCurrent);
-    writeVoltage(ctx, maxVoltage, maxVoltage);
+    writeCurrent(ctx, minCurrent);
+    writeVoltage(ctx, maxVoltage);
     writeOutput(ctx, true);
 
     // need to check if voltage is above maximum, as currently the power supply disreguards the maximum voltage setting
@@ -32,7 +32,7 @@ int main() {
     int i;
     for (i=minCurrent; i <= maxCurrent;) {
         i = i + 5;
-        writeCurrent(ctx, i, maxCurrent);
+        writeCurrent(ctx, i);
         if (i >= maxCurrent) {
             i = minCurrent;
         }

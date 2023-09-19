@@ -24,13 +24,13 @@ int main() {
     signal(SIGINT, exitDisconnect);
     
     writeOutput(ctx, true);
-    writeCurrent(ctx, maxCurrent, maxCurrent);
+    writeCurrent(ctx, maxCurrent);
 
     // loop from minimum voltage to max voltage in increments of 0.5V
     int i;
     for (i=minVoltage; i <= maxVoltage;) {
-        i = i + 50;
-        writeVoltage(ctx, i, maxVoltage);
+        i = i + 10;
+        writeVoltage(ctx, i);
         if (i >= maxVoltage) {
             i = minVoltage;
         }

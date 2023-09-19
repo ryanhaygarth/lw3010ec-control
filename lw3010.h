@@ -7,8 +7,9 @@
 
 void connect(modbus_t **ctx, char commPort[], int remoteId);
 void disconnect(modbus_t *ctx);
-void writeVoltage(modbus_t *ctx, int value, int maxVoltage);
-void writeCurrent(modbus_t *ctx, int value, int maxCurrent);
+int readValue(modbus_t *ctx, int regNumber);
+void writeVoltage(modbus_t *ctx, int value);
+void writeCurrent(modbus_t *ctx, int value);
 void writeOutput(modbus_t *ctx, bool output);
-//TODO - readOutputs
+void readOutputs(modbus_t *ctx, int *outputVoltage, int *outputCurrent, bool *outputStatus);
 #endif
