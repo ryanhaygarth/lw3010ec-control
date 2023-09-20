@@ -25,15 +25,13 @@ Make sure that the path to the header file is correct, for example in the demo d
 ```commPort[]``` is the directory of where the usb device is (example is /dev/ttyUSB0)  
 ```remoteId``` is the remote id of the device (default is 1)  
 **VOLTAGES AND CURRENTS ARE OF TYPE INTEGER AND ARE MULTIPLIED BY 100 (10.5V = 1050)**  
-```maxVoltage``` is the maximum voltage of the power supply, or can be set to a known maximum for safety (default is 3000)  
-```maxCurrent``` is the current limit of the power supply, or can be set to a known maximum for safety (default is 1000)  
 
 ### Example Function Usage
 
 These 3 lines are required to connect to the power supply and disconnect after.  
 ```
 modbus_t *ctx = NULL;
-connect(&ctx, commPort, remoteId);
+connect(&ctx, "/dev/ttyUSB0", 1);
 
 // do something here
 
@@ -41,9 +39,9 @@ disconnect(ctx);
 ```
 You can then write to the power supply using these functions.  
 ```
-writeVoltage(ctx, 1400, maxVoltage) // set the voltage to 14V
-writeCurrent(ctx, 1000, maxCurrent) // set the current limit to 10A
-writeOutput(ctx, true) // turn the output on
+writeVoltage(ctx, 1400); // set the voltage to 14V
+writeCurrent(ctx, 1000); // set the current limit to 10A
+writeOutput(ctx, true); // turn the output on
 ```  
 Read [demos/template.c](https://github.com/ryanhaygarth/lw3010ec-control/blob/main/demos/template.c) to see how to make sure disconnect() is called when the program is exited with SIGINT (for example if the program runs in a loop, etc.)  
 
