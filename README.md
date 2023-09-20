@@ -7,7 +7,7 @@ Power Supply Control for the Longwei LW3010EC Power Supply Written in C
 - [Usage](#usage)
 - [Expected Inputs](#expected-inputs)
 - [Building](#building)
-- [Todo](#todo)
+- [Todo](https://github.com/ryanhaygarth/lw3010ec-control/blob/main/TODO.md)
 
 ### About
 
