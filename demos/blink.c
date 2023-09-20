@@ -1,4 +1,4 @@
-#include "../lw3010.h"
+#include "../src/lw3010.h"
 #include <stdio.h>
 #include <modbus/modbus.h>
 #include <errno.h>

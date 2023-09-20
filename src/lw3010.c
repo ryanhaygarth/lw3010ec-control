@@ -11,6 +11,9 @@ Written by Ryan Haygarth
 
 -- VOLTAGES AND CURRENTS ARE OF TYPE INTEGER AND ARE MULTIPLIED BY 100 (10.5V = 1050) --
 
+Sometimes the program will output an "Invalid data" error, this seems to happen mainly the first time the program
+is run after the power supply is turned on.
+
 Register list
 0x1000, voltage write
 0x1001, current write
@@ -114,12 +117,19 @@ void writeVoltage(modbus_t *ctx, int value) {
         fprintf(stderr, "error setting voltage - %d is above maximum (%d)\n", value, MAX_VOLTAGE);
     } else if (modbus_write_register(ctx, 0x1000, value) == -1) {
         int possibleError = errno;
-        // nested if to print correct errno
+        usleep(200000); 
+        // This usleep seems to prevent a second invalid data error and let it check if it wrote correctly,
+        // As normally it gives the error but it has written the value correctly
+        // Nested if to print correct errno
         if (readValue(ctx, 0) != value) {
             fprintf(stderr, "error setting output - %s\n", modbus_strerror(possibleError));
             disconnect(ctx);
+            fprintf(stderr, "exiting\n");
             exit(EXIT_FAILURE);
         }
+        // This is only here to let the user know what the program could be running slow as
+        // Sometimes the invalid data error keeps repeating for every write until the program is terminated
+        printf("ignoring \"%s\" error\n", modbus_strerror(possibleError));
     }
 }
 
@@ -140,12 +150,15 @@ void writeCurrent(modbus_t *ctx, int value) {
         fprintf(stderr, "error setting current - %d is above maximum (%d)\n", value, MAX_CURRENT);
     } else if (modbus_write_register(ctx, 0x1001, value) == -1) {
         int possibleError = errno;
+        usleep(200000);
         // nested if to print correct errno
         if (readValue(ctx, 1) != value) {
             fprintf(stderr, "error setting current %s\n", modbus_strerror(possibleError));
             disconnect(ctx);
+            fprintf(stderr, "exiting\n");
             exit(EXIT_FAILURE);
         }
+        printf("ignoring \"%s\" error\n", modbus_strerror(possibleError));
     }
 }
 
@@ -164,12 +177,15 @@ void writeOutput(modbus_t *ctx, bool output) {
     usleep(200000);
     if (modbus_write_register(ctx, 0x1006, output) == -1) {
         int possibleError = errno;
+        usleep(200000);
         // nested if to print correct errno
         if (readValue(ctx, 6) != output) {
             fprintf(stderr, "error setting output - %s\n", modbus_strerror(possibleError));
             disconnect(ctx);
+            fprintf(stderr, "exiting\n");
             exit(EXIT_FAILURE);
         }
+        printf("ignoring \"%s\" error\n", modbus_strerror(possibleError));
     }
 }
 
