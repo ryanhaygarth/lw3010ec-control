@@ -18,7 +18,7 @@ This program was written to control a Longwei LW3010EC programmable power supply
 First, you need to install the libmodbus library if not installed already. Instructions are on the [Libmodbus](https://libmodbus.org/getting_started/) website.  
 Once installed, you can include the header file into any file to use its functions in your programs.  
 ```#include "lw3010.h"```  
-Make sure that the path to the header file is correct, for example in the demo directory the path is ```"../lw3010.h"``` instead.  
+Make sure that the path to the header file is correct, for example in the demo directory the path is ```"../src/lw3010.h"``` instead.  
 
 ### Expected Inputs
 
@@ -50,4 +50,4 @@ Read [demos/template.c](https://github.com/ryanhaygarth/lw3010ec-control/blob/ma
 To build something from this project, you need to link the modbus library when compiling.  
 
 An example to compile the fade.c file would be  
-```gcc lw3010.c demos/fade.c -o fade -lmodbus```  
+```gcc src/lw3010.c demos/fade.c -o fade -lmodbus```  

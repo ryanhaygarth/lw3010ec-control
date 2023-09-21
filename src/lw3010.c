@@ -60,6 +60,7 @@ void connect(modbus_t **ctx, char commPort[], int remoteId) {
         exit(EXIT_FAILURE);
     }
     usleep(200000);
+    modbus_set_response_timeout(*ctx, 0, 200000);
     printf("connected\n");
 }
 

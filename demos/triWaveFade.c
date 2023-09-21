@@ -10,7 +10,11 @@
 modbus_t *ctx = NULL;
 char commPort[] = "/dev/ttyUSB0";
 int remoteId = 1;
+int maxVoltage = 1100;
 int maxCurrent = 1000;
+int minVoltage = 300;
+int i = 300;
+bool ascending = true;
 
 void exitDisconnect(int signum) {
     disconnect(ctx);
@@ -21,9 +25,24 @@ int main() {
     connect(&ctx, commPort, remoteId);
     signal(SIGINT, exitDisconnect);
 
-    writeVoltage(ctx, 0);
+    writeVoltage(ctx, minVoltage);
     writeCurrent(ctx, maxCurrent);
-    writeOutput(ctx, false);
+    writeOutput(ctx, true);
+
+    while (true) {
+        if (i == maxVoltage) {
+            ascending = false;
+        } else if (i == minVoltage) {
+            ascending = true;
+        }
+
+        if (ascending == true) {
+            i += 25;
+        } else {
+            i -= 25;
+        }
+        writeVoltage(ctx, i);
+    }
 
     disconnect(ctx);
     return 0;

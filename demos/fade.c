@@ -23,8 +23,9 @@ int main() {
     connect(&ctx, commPort, remoteId);
     signal(SIGINT, exitDisconnect);
     
-    writeOutput(ctx, true);
+    writeVoltage(ctx, minVoltage);
     writeCurrent(ctx, maxCurrent);
+    writeOutput(ctx, true);
 
     // loop from minimum voltage to max voltage in increments of 0.5V
     int i;
